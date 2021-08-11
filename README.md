@@ -1,1 +1,1 @@
-# kamke_test_suite
+# Kamke Test Suite - SymPy
