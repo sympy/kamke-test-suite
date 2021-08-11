@@ -2129,7 +2129,7 @@ class Kamke:
         <div>
         {prev}
         <a href='chapter_summary.html'>Chapter Home</a>
-        <a href='../summary.html'>Home</a>
+        <a href='../../index.html'>Home</a>
         {nxt}
         </div>
         <h4>Equation</h4>
@@ -2201,7 +2201,7 @@ class Kamke:
         <h1>Kamke Test Suite</h1>
         <h2>Chapter {chno}</h2>
         <div style="text-align: center">
-            <a id="home" href="../summary.html">Home</a>
+            <a id="home" href="../../index.html">Home</a>
         </div>
         <div class="container">
             <ul>
