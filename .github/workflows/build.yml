@@ -33,7 +33,7 @@ jobs:
 
     - name: Run script
       run: |
-        python test_kamke.py --verify --all-hints
+        python test_kamke.py --verify --all_hints
 
     - name: Commit files
       run: |
