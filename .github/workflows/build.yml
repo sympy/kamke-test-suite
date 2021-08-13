@@ -4,7 +4,7 @@ on:
   push
 
 jobs:
-  Chapter 5:
+  chapter-5:
     runs-on: ubuntu-latest
 
     steps:
@@ -31,7 +31,7 @@ jobs:
       run: |
         bash ./commit.sh
     
-  Chapter 7:
+  chapter-7:
     runs-on: ubuntu-latest
 
     steps:
