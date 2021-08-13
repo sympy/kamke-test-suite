@@ -1906,11 +1906,8 @@ class Kamke:
         "kamke_7.12": -(a + 3*Derivative(y(x), x))*Derivative(y(x), (x, 2))**2 + (Derivative(y(x), x)**2 + 1)*Derivative(y(x), (x, 3)),
         "kamke_7.13": -a*sqrt(b**2*Derivative(y(x), (x, 2))**2 + 1) + Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3)),
         "kamke_7.14": Derivative(y(x), x)**3*Derivative(y(x), (x, 3)) + Derivative(y(x), x)*Derivative(y(x), (x, 4)) - Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3)),
-        "kamke_7.15": -fs*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3)) + (f(x)*Derivative(y(x), (x, 2)) + Derivative(f(x), x)*Derivative(y(x), x))*Derivative(y(x), x)**3 + (q(x)*Derivative(y(x), (x, 2)) - Derivative(q(x), x)*Derivative(y(x), x))*cos(y(x)) + (f(x)*Derivative(y(x), (x, 4)) + 3*Derivative(f(x), x)*Derivative(y(x), (x, 3)) + 3*Derivative(f(x), (x, 2))*Derivative(y(x), (x, 2)) + Derivative(f(x), (x, 3))*Derivative(y(x), x))*Derivative(y(x), x) + 2*q(x)*sin(y(x))*Derivative(y(x), x)**2,
         "kamke_7.16": 3*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 4)) - 5*Derivative(y(x), (x, 3))**2,
-        "kamke_7.17": 9*Derivative(y(x), (x, 2))**2*Derivative(y(x), (x, 5)) - 45*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3))*Derivative(y(x), (x, 4)) + 40*Derivative(y(x), (x, 3)),
-        "kamke_7.18": -f(Derivative(y(x), (x, n - 1))) + Derivative(y(x), (x, n)),
-        "kamke_7.19": -f(Derivative(y(x), (x, n - 2))) + Derivative(y(x), (x, n))
+        "kamke_7.17": 9*Derivative(y(x), (x, 2))**2*Derivative(y(x), (x, 5)) - 45*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3))*Derivative(y(x), (x, 4)) + 40*Derivative(y(x), (x, 3))
     }
 
     chapter_8 = {
@@ -2014,6 +2011,9 @@ class Kamke:
         "kamke_1.113": a*sqrt(x**2 + y(x)**2) + x*Derivative(y(x), x) - y(x),
         "kamke_1.205": a*y(x) + b*x**n + x*(a**2/4 - 1/4) + y(x)*Derivative(y(x), x),
         "kamke_5.9": x*diff(y(x),(x,n))-((a*AA[1]-AA[0])*x+AA[1])-Sum(((a*AA[v+1]-AA[v])*x+AA[v+1])*diff(y(x),(x,v)),(v,1,n-1)),
+        "kamke_7.15": -fs*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3)) + (f(x)*Derivative(y(x), (x, 2)) + Derivative(f(x), x)*Derivative(y(x), x))*Derivative(y(x), x)**3 + (q(x)*Derivative(y(x), (x, 2)) - Derivative(q(x), x)*Derivative(y(x), x))*cos(y(x)) + (f(x)*Derivative(y(x), (x, 4)) + 3*Derivative(f(x), x)*Derivative(y(x), (x, 3)) + 3*Derivative(f(x), (x, 2))*Derivative(y(x), (x, 2)) + Derivative(f(x), (x, 3))*Derivative(y(x), x))*Derivative(y(x), x) + 2*q(x)*sin(y(x))*Derivative(y(x), x)**2,
+        "kamke_7.18": -f(Derivative(y(x), (x, n - 1))) + Derivative(y(x), (x, n)),
+        "kamke_7.19": -f(Derivative(y(x), (x, n - 2))) + Derivative(y(x), (x, n))
     }
 
     all_chapters = [chapter_1, chapter_2, chapter_3, chapter_4, chapter_5, chapter_6, chapter_7, chapter_8, chapter_9]
@@ -2057,7 +2057,7 @@ class Kamke:
     """
 
 
-    def create_example_page(self, example, eq, status, sol, time, classify_output, checkodesol_output, all_hints):
+    def create_example_page(self, example, eq, status, sol, elapsed, classify_output, checkodesol_output, all_hints):
         exno = int(example.split('.')[1])
         chno = int(example[6])
         prev = ""
@@ -2139,9 +2139,12 @@ class Kamke:
             {f"{backslash}({sol}{backslash})" if status != 1 else sol} <br>
             <h4>Verification (using checkodesol)</h4> {checkodesol_output} <br>
         <h4>Time Taken</h4>
-            {time} seconds <br>
+            {elapsed} seconds <br>
         </p>
         {hints_section}
+        <p>
+            Generated on {time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime()) }
+        </p>
         <script>
         var coll = document.getElementsByClassName("collapsible");
         var i;
@@ -2216,6 +2219,9 @@ class Kamke:
                 {rows}
             </ul>
         </div>
+        <p>
+            Generated on {time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime()) }
+        </p>
         </body>
         </html>
         """
@@ -2263,6 +2269,9 @@ class Kamke:
                 {rows}
             </ul>
         </div>
+        <p>
+            Generated on {time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime()) }
+        </p>
         </body>
         </html>
         """
@@ -2288,7 +2297,10 @@ class Kamke:
     def get_order(self, eq):
         if isinstance(eq, tuple):
             eq = eq[0][0]
-        order = ode_order(eq, y(x))
+        try:
+            order = ode_order(eq, y(x))
+        except:
+            print(eq)
         if order == 1:
             return "1st"
         if order == 2:
@@ -2408,7 +2420,7 @@ class Kamke:
         rows = ""
         os.makedirs(f"kamke/chapter_{chno}/", exist_ok=True)
 
-        for example in list(self.all_chapters[chno-1])[:2]:
+        for example in self.all_chapters[chno-1]:
             eq = self.get_example(example)
             if isinstance(eq, tuple):
                 eq = eq[0]

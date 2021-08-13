@@ -4,9 +4,8 @@ on:
   push
 
 jobs:
-  test-suite:
+  Chapter 5:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
 
     steps:
     - uses: actions/checkout@v2
@@ -19,23 +18,41 @@ jobs:
         python-version: '3.8'
         architecture: 'x64'
 
-    - name: Cache pip
-      uses: actions/cache@v2
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools wheel
+        pip install -r requirements.txt
+
+    - name: Chapter 5
+      run: |
+        python test_kamke.py -ch 5
+
+    - name: Commit files
+      run: |
+        bash ./commit.sh
+    
+  Chapter 7:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
       with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-          ${{ runner.os }}-
+        ref: gh-pages
+
+    - name: Setup python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+        architecture: 'x64'
 
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip setuptools wheel
         pip install -r requirements.txt
 
-    - name: Run script
+    - name: Chapter 7
       run: |
-        python test_kamke.py --verify --all_hints
+        python test_kamke.py -ch 7
 
     - name: Commit files
       run: |
