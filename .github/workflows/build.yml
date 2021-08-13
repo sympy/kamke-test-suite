@@ -10,6 +10,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        ref: gh-pages
 
     - name: Setup python
       uses: actions/setup-python@v2
@@ -38,8 +40,3 @@ jobs:
     - name: Commit files
       run: |
         bash ./commit.sh
-    # - name: Push changes  # push the output folder to your repo
-    #   uses: ad-m/github-push-action@master
-    #   with:
-    #     github_token: ${{ secrets.API_TOKEN }}
-    #     force: true

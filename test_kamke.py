@@ -2266,7 +2266,7 @@ class Kamke:
         </body>
         </html>
         """
-        file = open(f"kamke/summary.html", "w")
+        file = open(f"index.html", "w")
         file.write(main_page)
         file.close()
 
