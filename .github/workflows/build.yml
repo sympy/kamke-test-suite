@@ -28,3 +28,8 @@ jobs:
       - name: Chapter ${{ matrix.node }}
         run: |
           python test_kamke.py -ch ${{ matrix.node }}
+      
+      - uses: actions/upload-artifact@v2
+        with:
+          name: chapter_${{ matrix.node }}
+          path: json/chapter_${{ matrix.node }}
