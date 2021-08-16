@@ -5,11 +5,11 @@ branch_name="gh-pages"
 git config user.name "$GITHUB_ACTOR"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-git add .
+git add html json
 
 if git status | grep 'new file\|modified'
 then
     git commit -m "Run the test suite"
     git remote set-url "$remote_name" "$repo_uri"
-    git push --force "$remote_name" "$branch_name"
+    git push "$remote_name" "$branch_name"
 fi
