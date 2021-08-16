@@ -5,7 +5,7 @@ branch_name="gh-pages"
 git config user.name "$GITHUB_ACTOR"
 git config user.email "${GITHUB_ACTOR}@bots.github.com"
 
-git add html json
+git add html json index.html
 
 if git status | grep 'new file\|modified'
 then

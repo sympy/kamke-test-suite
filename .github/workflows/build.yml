@@ -4,7 +4,7 @@ on:
   push
 
 jobs:
-  generate-files:
+  generate-json:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -36,6 +36,7 @@ jobs:
 
   generate-html:
     runs-on: ubuntu-latest
+    needs: generate-json
     steps:
       - uses: actions/checkout@v2
         with:
