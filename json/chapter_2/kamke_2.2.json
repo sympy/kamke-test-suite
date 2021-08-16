@@ -1,0 +1,17 @@
+{
+    "name": "Kamke 2.2",
+    "eq": "y(x) + Derivative(y(x), (x, 2))",
+    "order": "2nd",
+    "linearity": "Linear",
+    "status": "Solved",
+    "sol": "[Eq(y(x), C1*sin(x) + C2*cos(x))]",
+    "verification": "Skipped",
+    "time": 0.2500741481781006,
+    "hint": "nth_linear_constant_coeff_homogeneous",
+    "all_hints": [
+        "nth_linear_constant_coeff_homogeneous",
+        "2nd_power_series_ordinary",
+        "2nd_nonlinear_autonomous_conserved",
+        "2nd_nonlinear_autonomous_conserved_Integral"
+    ]
+}

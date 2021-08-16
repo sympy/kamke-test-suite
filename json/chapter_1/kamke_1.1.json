@@ -1,0 +1,29 @@
+{
+    "name": "Kamke 1.1",
+    "eq": "Derivative(y(x), x) - 1/sqrt(a0 + a1*x + a2*x**2 + a3*x**3 + a4*x**4)",
+    "order": "1st",
+    "linearity": "Linear",
+    "status": "Solved",
+    "sol": "[Eq(y(x), C1 + Integral(1/sqrt(a0 + a1*x + a2*x**2 + a3*x**3 + a4*x**4), x))]",
+    "verification": "Skipped",
+    "time": 6.795112133026123,
+    "hint": "nth_algebraic",
+    "all_hints": [
+        "nth_algebraic",
+        "separable",
+        "1st_exact",
+        "1st_linear",
+        "Bernoulli",
+        "1st_power_series",
+        "lie_group",
+        "nth_linear_constant_coeff_variation_of_parameters",
+        "nth_linear_euler_eq_nonhomogeneous_variation_of_parameters",
+        "nth_algebraic_Integral",
+        "separable_Integral",
+        "1st_exact_Integral",
+        "1st_linear_Integral",
+        "Bernoulli_Integral",
+        "nth_linear_constant_coeff_variation_of_parameters_Integral",
+        "nth_linear_euler_eq_nonhomogeneous_variation_of_parameters_Integral"
+    ]
+}

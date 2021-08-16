@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Kamke 1.2</title>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async
+                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+        <style>
+        body {
+            font-size: 1.2em;
+        }
+        .MathJax {
+            font-size: 1.6em !important;
+        }
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: rgba(0,0,0,0.75);
+            color: white;
+            border-radius: 7px;
+            font-size: 0.8em;
+        }
+        .collapsible {
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active, .collapsible:hover {
+            background-color: rgba(0,0,0,0.75);
+        }
+
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #f1f1f1;
+            overflow-x: scroll;
+        }
+        </style>
+        </head>
+        <body>
+        <p>
+        <h2>Kamke 1.2</h2>
+        <div>
+        <a href='kamke_1.1.html'>&laquo; Previous</a>
+        <a href='chapter1_summary.html'>Chapter Home</a>
+        <a href='../../index.html'>Home</a>
+        <a href='kamke_1.3.html'>Next &raquo;</a>
+        </div>
+        <h4>Equation</h4>
+            \(a y{\left(x \right)} - c e^{b x} + \frac{d}{d x} y{\left(x \right)}\) <br>
+        <h4>Solution</h4>
+            <!-- Render latex if solution was found by dsolve, else render error message -->
+            \(\left[ y{\left(x \right)} = \left(C_{1} + c \left(\begin{cases} \frac{e^{a x} e^{b x}}{a + b} & \text{for}\: a \neq - b \\x & \text{otherwise} \end{cases}\right)\right) e^{- a x}\right]\) <br>
+            <h4>Verification (using checkodesol)</h4> Skipped <br>
+        <h4>Time Taken</h4>
+            1.4320766925811768 seconds <br>
+        </p>
+        <h4>Matching Hints</h4>
+<ul>
+<li>1st_linear</li>
+<li>Bernoulli</li>
+<li>almost_linear</li>
+<li>1st_power_series</li>
+<li>lie_group</li>
+<li>nth_linear_constant_coeff_undetermined_coefficients</li>
+<li>nth_linear_constant_coeff_variation_of_parameters</li>
+<li>1st_linear_Integral</li>
+<li>Bernoulli_Integral</li>
+<li>almost_linear_Integral</li>
+<li>nth_linear_constant_coeff_variation_of_parameters_Integral</li>
+</ul>
+<br>
+
+        <p>
+            Generated on Mon, 16 Aug 2021 11:17:50 GMT
+        </p>
+        <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++)
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight)
+            content.style.maxHeight = null;
+            else
+            content.style.maxHeight = content.scrollHeight + "px";
+        });
+        </script>
+        </body>
+        </html>
+        
