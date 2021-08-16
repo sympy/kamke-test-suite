@@ -9,8 +9,9 @@ import threading
 import _thread
 import time
 import os
+import json
 
-from sympy import (symbols, Function, Eq, dsolve, checkodesol,
+from sympy import (symbols, sympify, Function, Eq, dsolve, checkodesol,
     classify_ode, latex, Abs, sqrt, cos, exp, log, sin, tan, Derivative,
     Ci, Ei, Piecewise, Si, cosh, cot, coth, sinh, tanh, Integral, I, Subs,
     diff, Ne, Sum, IndexedBase, Pow)
@@ -2018,6 +2019,27 @@ class Kamke:
 
     all_chapters = [chapter_1, chapter_2, chapter_3, chapter_4, chapter_5, chapter_6, chapter_7, chapter_8, chapter_9]
 
+    example_json = {
+        "name": "",
+        "eq": "",
+        "order": "",
+        "linearity": "",
+        "status": "",
+        "sol": "",
+        "verification": "",
+        "time": "",
+        "hint": "",
+        "all_hints": {
+            # Each entry in this format
+            # "hint_1": {
+            #     "status": "",
+            #     "sol": "",
+            #     "verification": "",
+            #     "time": ""
+            # }
+        }
+    }
+
     css = """
     .container {
         max-width: 1000px;
@@ -2057,15 +2079,29 @@ class Kamke:
     """
 
 
-    def create_example_page(self, example, eq, status, sol, elapsed, classify_output, checkodesol_output, all_hints):
-        exno = int(example.split('.')[1])
-        chno = int(example[6])
+    def create_example_page(self, data):
+        exno = int(data["name"].split('.')[1])
+        chno = int(data["name"][6])
         prev = ""
         nxt = ""
         backslash = "\\"
-        hints_section = f"""<h4>Matching Hints</h4>\n<ul>\n{classify_output}\n</ul>\n<br>\n"""
-        if all_hints:
-            hints_section = f"<h4>All Solutions</h4>\n{classify_output}"
+        if not isinstance(data["all_hints"], list):
+            hints_section = f"<h4>All Solutions</h4>\n"
+            for hnt in data["all_hints"]:
+                hint_json = data["all_hints"][hnt]
+                hints_section += f"""<button class="collapsible">{hnt}</button>
+                <div class="content">
+                    <h4>Solution</h4>
+                    {hint_json['sol'] if hint_json['status'] == 'Failed' else f"{backslash}({latex(sympify(hint_json['sol']))}{backslash})"} <br>
+                    <h4>Verification (using checkodesol)</h4> {hint_json["sol"]} <br>
+                    <h4>Time Taken</h4>
+                    {hint_json["time"]} seconds <br> <br>
+                </div>"""
+        else:
+            hints_section = "<h4>Matching Hints</h4>\n<ul>\n"
+            for hnt in data["all_hints"]:
+                hints_section += f"<li>{hnt}</li>\n"
+            hints_section += "</ul>\n<br>\n"
         if exno != 1:
             prev = f"<a href='kamke_{chno}.{exno-1}.html'>&laquo; Previous</a>"
         if exno != len(self.all_chapters[chno-1]):
@@ -2076,7 +2112,7 @@ class Kamke:
         <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
-        <title>{example.capitalize().replace("_", " ")}</title>
+        <title>{data["name"].capitalize().replace("_", " ")}</title>
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
         <script id="MathJax-script" async
                 src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
@@ -2125,25 +2161,25 @@ class Kamke:
         </head>
         <body>
         <p>
-        <h2>{example.capitalize().replace("_", " ")}</h2>
+        <h2>{data["name"].capitalize().replace("_", " ")}</h2>
         <div>
         {prev}
-        <a href='chapter_summary.html'>Chapter Home</a>
+        <a href='chapter{chno}_summary.html'>Chapter Home</a>
         <a href='../../index.html'>Home</a>
         {nxt}
         </div>
         <h4>Equation</h4>
-            \\({eq}\\) <br>
+            \\({latex(sympify(data["eq"]))}\\) <br>
         <h4>Solution</h4>
             <!-- Render latex if solution was found by dsolve, else render error message -->
-            {f"{backslash}({sol}{backslash})" if status != 1 else sol} <br>
-            <h4>Verification (using checkodesol)</h4> {checkodesol_output} <br>
+            {data['sol'] if data['status'] == 'Failed' else f"{backslash}({latex(sympify(data['sol']))}{backslash})"} <br>
+            <h4>Verification (using checkodesol)</h4> {data['verification']} <br>
         <h4>Time Taken</h4>
-            {elapsed} seconds <br>
+            {data["time"]} seconds <br>
         </p>
         {hints_section}
         <p>
-            Generated on {time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime()) }
+            Generated on {time.strftime("%a, %d %b %Y %H:%M:%S GMT", time.gmtime())}
         </p>
         <script>
         var coll = document.getElementsByClassName("collapsible");
@@ -2162,10 +2198,31 @@ class Kamke:
         </body>
         </html>
         """
-        os.makedirs(f"kamke/chapter_{chno}/", exist_ok=True)
-        file = open(f"kamke/chapter_{chno}/{example}.html", "w")
+        os.makedirs(f"html/chapter_{chno}/", exist_ok=True)
+        file = open(f"html/chapter_{chno}/{data['name']}.html", "w")
         file.write(example_page)
         file.close()
+
+        return f"""<li class="table-row">
+        <div class="col-1">
+            <a href='{data["name"]}.html'>{data["name"].capitalize().replace("_", " ")}</a>
+        </div>
+        <div class="col-2">
+            {data["order"]}
+        </div>
+        <div class="col-3">
+            {data["linearity"]}
+        </div>
+        <div class="col-4">
+        {data["status"]}
+        </div>
+        <div class="col-5">
+            {data["hint"]}
+        </div>
+        <div class="col-6">
+            {round(data["time"], 3)}
+        </div>
+        </li>\n"""
 
 
     def create_chapter_page(self, chno, rows):
@@ -2225,7 +2282,7 @@ class Kamke:
         </body>
         </html>
         """
-        file = open(f"kamke/chapter_{chno}/chapter_summary.html", "w")
+        file = open(f"html/chapter_{chno}/chapter{chno}_summary.html", "w")
         file.write(chapter_page)
         file.close()
 
@@ -2297,10 +2354,7 @@ class Kamke:
     def get_order(self, eq):
         if isinstance(eq, tuple):
             eq = eq[0][0]
-        try:
-            order = ode_order(eq, y(x))
-        except:
-            print(eq)
+        order = ode_order(eq, y(x))
         if order == 1:
             return "1st"
         if order == 2:
@@ -2314,22 +2368,31 @@ class Kamke:
         return self.all_chapters[int(example[6])-1][example]
 
 
-    def test_example(self, example, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, single=False, all_hints=False):
-        start = time.time()
+    def test_example(self, example, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, all_hints=False):
+        data = self.example_json
+        if example[0] != 'k':
+            example = "kamke_" + example
+        chno = int(example[6])
+
+        data["name"] = example.capitalize().replace("_", " ")
         eq = self.get_example(example)
-        final_sol = None
+        data["eq"] = str(eq)
+        data["order"] = self.get_order(eq)
+        data["linearity"] = self.get_linearity(eq)
+
         # Status index
         final_status = 1
         status_messages = ["Solved", "Failed", "Solved and Checked"]
+        final_sol = None
         final_error_message = ""
         final_checkodesol_output = "Skipped"
+        start = time.time()
         classify_output = ""
         classify_hints = classify_ode(eq, y(x))
 
         if not all_hints:
             hints = [hint]
-            for hnt in classify_hints:
-                classify_output += f"<li>{hnt}</li>\n"
+            data["all_hints"] = classify_hints
         else:
             hints = classify_hints
 
@@ -2381,143 +2444,132 @@ class Kamke:
                     final_status = status
                     final_error_message = error_message
                     final_checkodesol_output = checkodesol_output
-                hint_sol = f"\\({latex(sol)}\\)"
             else:
-                hint_sol = error_message
+                sol = error_message
 
             if hnt != "default":
-                classify_output += f"""<button class="collapsible">{hnt}</button>
-                        <div class="content">
-                            <h4>Solution</h4>
-                            {hint_sol} <br>
-                            <h4>Verification (using checkodesol)</h4> {checkodesol_output} <br>
-                            <h4>Time Taken</h4>
-                            {time.time() - hint_start} seconds <br> <br>
-                        </div>"""
+                data["all_hints"][hnt] = {
+                    "status": status_messages[status],
+                    "sol": str(sol),
+                    "verification": str(checkodesol_output),
+                    "time": time.time() - hint_start
+                }
+                # classify_output += f"""<button class="collapsible">{hnt}</button>
+                #         <div class="content">
+                #             <h4>Solution</h4>
+                #             {hint_sol} <br>
+                #             <h4>Verification (using checkodesol)</h4> {checkodesol_output} <br>
+                #             <h4>Time Taken</h4>
+                #             {time.time() - hint_start} seconds <br> <br>
+                #         </div>"""
 
         elapsed = time.time() - start
         log = f"{example} {status_messages[final_status]} in {elapsed} seconds\n"
 
+        data["status"] = status_messages[final_status]
+        data["time"] = elapsed
+        data["verification"] = str(final_checkodesol_output)
+
         if final_sol is None:
             if len(classify_hints) == 0:
                 final_error_message += "Not Implemented\n"
+                data["hint"] = "Not Implemented"
+            else:
+                data["hint"] = classify_hints[0]
             log += final_error_message
-            self.create_example_page(example, latex(eq), final_status, final_error_message, elapsed, classify_output, final_checkodesol_output, all_hints)
+            data["sol"] = final_error_message
+            # self.create_example_page(example, latex(eq), final_status, final_error_message, elapsed, classify_output, final_checkodesol_output, all_hints)
         else:
             log += f"Equation: {eq}\nSolution: {final_sol}\n"
-            self.create_example_page(example, latex(eq), final_status, latex(final_sol), elapsed, classify_output, final_checkodesol_output, all_hints)
-        if single:
-            print(log)
-        return [log, final_status, classify_hints, elapsed]
+            data["sol"] = str(final_sol)
+            data["hint"] = classify_hints[0]
+            # self.create_example_page(example, latex(eq), final_status, latex(final_sol), elapsed, classify_output, final_checkodesol_output, all_hints)
+        print(log)
+
+        os.makedirs(f"json/chapter_{chno}/", exist_ok=True)
+        file = open(f"json/chapter_{chno}/{example}.json", "w")
+        file.write(json.dumps(data, indent=4))
+        file.close()
 
 
-    def test_chapter(self, chno, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, single=False, all_hints=False):
-        # Time elapsed
-        total_time = 0
-        # Counts for result
-        counts = [0, 0, 0]
-        status_messages = ["Solved", "Failed", "Solved and Checked"]
-        rows = ""
-        os.makedirs(f"kamke/chapter_{chno}/", exist_ok=True)
-
-        for example in self.all_chapters[chno-1]:
-            eq = self.get_example(example)
-            if isinstance(eq, tuple):
-                eq = eq[0]
-            rows += f"""<li class="table-row">
-            <div class="col-1">
-                <a href='{example}.html'>{example.capitalize().replace("_", " ")}</a>
-            </div>
-            <div class="col-2">
-                {self.get_order(eq)}
-            </div>
-            <div class="col-3">
-                {self.get_linearity(eq)}
-            </div>\n"""
-            output, status, hints, elapsed = self.test_example(example, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
-            print(output)
-            counts[status] += 1
-            total_time += elapsed
-            hint = hints[0] if len(hints) else "Not Implemented"
-            rows += f"""<div class="col-4">
-            {status_messages[status]}
-            </div>
-            <div class="col-5">
-                {hint}
-            </div>
-            <div class="col-6">
-                {round(elapsed, 3)}
-            </div>
-            </li>\n"""
-
-        self.create_chapter_page(chno, rows)
-
-        # Summary
-        if single:
-            print("Total time taken:", total_time)
-            print("No. of ODEs solved:", counts[0])
-            print("No. of ODEs failed:", counts[1])
-            print("No. of ODEs solved and checked:", counts[2])
-        return [total_time, counts]
+    def test_chapter(self, chno, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, all_hints=False):
+        for example in list(self.all_chapters[chno-1].keys())[:2]:
+            self.test_example(example, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
 
 
     def test_all_examples(self, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, all_hints=False):
-        # Time elapsed
-        total_time = 0
-        # Counts for result
-        counts = [0, 0, 0]
-        rows = ""
-
         for chapter in range(1, 8):
-            elapsed, cts = self.test_chapter(chapter, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
-            total_time += elapsed
+            self.test_chapter(chapter, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
+
+
+    def create_html_reports(self):
+        counts = [[0, 0, 0, 0] for i in range(10)]
+        status_messages = ["Solved", "Failed", "Solved and Checked"]
+        for chapter in os.listdir("json"):
+            chno = int(chapter[-1])
+            rows = ""
+            for example in os.listdir(f"json/{chapter}"):
+                file = open(f"json/{chapter}/{example}")
+                data = json.load(file)
+                rows += self.create_example_page(data)
+                counts[chno][status_messages.index(data["status"])] += 1
+                counts[chno][-1] += data["time"]
+            self.create_chapter_page(chno, rows)
+        rows = ""
+        for chno in range(1, len(counts)):
             rows += f"""<li class="table-row">
             <div class="col-1">
-                <a href="chapter_{chapter}/chapter_summary.html">Chapter {chapter}</a>
+                <a href="html/chapter_{chno}/chapter{chno}_summary.html">Chapter {chno}</a>
             </div>
             <div class="col-2">
-                {cts[0]}
+                {counts[chno][0]}
             </div>
             <div class="col-3">
-                {cts[1]}
+                {counts[chno][1]}
             </div>
             <div class="col-4">
-                {cts[2]}
+                {counts[chno][2]}
             </div>
             <div class="col-5">
-                {round(elapsed, 3)}
+                {round(counts[chno][3], 3)}
             </div>
-            </li>
-            """
-            for i in range(3):
-                counts[i] += cts[i]
-
+            </li>"""
         self.create_main_page(rows)
 
-        # Summary
-        print("Total time taken:", total_time)
-        print("No. of ODEs solved:", counts[0])
-        print("No. of ODEs failed:", counts[1])
-        print("No. of ODEs solved and checked:", counts[2])
 
 if __name__ == '__main__':
-    os.makedirs("kamke", exist_ok=True)
-
     import argparse
+    import shutil
+
     parser = argparse.ArgumentParser()
-    parser.add_argument("-e", "--example", help="Name of the example in the format kamke_{chapter_no}.{problem_no}\nSpecify all to test all examples", default="all")
+    parser.add_argument("-e", "--example", help="Name of the example in the format {chapter_no}.{problem_no}\nSpecify all to test all examples", default="all")
     parser.add_argument("-ch", "--chapter", help="Chapter no. Tests all examples of a chapter", type=int)
     parser.add_argument("--hint", help="Hint to be used to solve the ODEs", default="default")
     parser.add_argument("--all_hints", help="Solve the ODE with all matching hints", action="store_true")
     parser.add_argument("--verify", help="Verify the solution from dsolve using checkodesol", action="store_true")
     parser.add_argument("--dsolve_time", help="Timeout duration (in seconds) for dsolve", type=int, default=10)
     parser.add_argument("--checkodesol_time", help="Timeout duration (in seconds) for checkodesol", type=int, default=10)
+    parser.add_argument("--html", help="Generate HTML reports from JSON files", action="store_true")
+    parser.add_argument("-rp", "--remove_prev", help="Remove files generated from previous runs", action="store_true")
 
     args = parser.parse_args()
     kamke = Kamke()
-    if args.chapter is not None:
-        kamke.test_chapter(args.chapter, args.hint, args.verify, args.dsolve_time, args.checkodesol_time, True, args.all_hints)
-    elif args.example == "all":
-        kamke.test_all_examples(args.hint, args.verify, args.dsolve_time, args.checkodesol_time, all_hints=args.all_hints)
-    else:
-        kamke.test_example(args.example, args.hint, args.verify, args.dsolve_time, args.checkodesol_time, True, args.all_hints)
+
+    if args.remove_prev:
+        if os.path.exists("json"):
+            shutil.rmtree("json")
+        if os.path.exists("kamke"):
+            shutil.rmtree("kamke")
+
+    if not os.path.exists("json"):
+        os.makedirs("json")
+        if args.chapter is not None:
+            kamke.test_chapter(args.chapter, args.hint, args.verify, args.dsolve_time, args.checkodesol_time, args.all_hints)
+        elif args.example == "all":
+            kamke.test_all_examples(args.hint, args.verify, args.dsolve_time, args.checkodesol_time, args.all_hints)
+        else:
+            kamke.test_example(args.example, args.hint, args.verify, args.dsolve_time, args.checkodesol_time, args.all_hints)
+
+    if args.html:
+        os.makedirs("html", exist_ok=True)
+        kamke.create_html_reports()

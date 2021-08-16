@@ -4,56 +4,27 @@ on:
   push
 
 jobs:
-  chapter-5:
+  generate-files:
     runs-on: ubuntu-latest
-
+    strategy:
+      chapters:
+        chno: [1, 2]
     steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: gh-pages
+      - uses: actions/checkout@v2
+        with:
+          ref: gh-pages
 
-    - name: Setup python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-        architecture: 'x64'
+      - name: Setup python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.8'
+          architecture: 'x64'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip setuptools wheel
-        pip install -r requirements.txt
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
 
-    - name: Chapter 5
-      run: |
-        python test_kamke.py -ch 5
-
-    - name: Commit files
-      run: |
-        bash ./commit.sh
-    
-  chapter-7:
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v2
-      with:
-        ref: gh-pages
-
-    - name: Setup python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.8'
-        architecture: 'x64'
-
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip setuptools wheel
-        pip install -r requirements.txt
-
-    - name: Chapter 7
-      run: |
-        python test_kamke.py -ch 7
-
-    - name: Commit files
-      run: |
-        bash ./commit.sh
+      - name: Chapter ${{ chapters.chno }}
+        run: |
+          python test_kamke.py -ch ${{ chapters.chno }}
