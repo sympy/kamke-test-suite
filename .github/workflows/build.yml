@@ -60,7 +60,7 @@ jobs:
       - name: Generate HTML files
         run: |
           python test_kamke.py --html
-      
+
       - name: Commit Files
         run: |
           bash ./commit.sh

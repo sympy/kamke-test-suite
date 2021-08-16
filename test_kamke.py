@@ -2505,10 +2505,10 @@ class Kamke:
     def create_html_reports(self):
         counts = [[0, 0, 0, 0] for i in range(10)]
         status_messages = ["Solved", "Failed", "Solved and Checked"]
-        for chapter in os.listdir("json"):
+        for chapter in sorted(os.listdir("json")):
             chno = int(chapter[-1])
             rows = ""
-            for example in os.listdir(f"json/{chapter}"):
+            for example in sorted(os.listdir(f"json/{chapter}")):
                 file = open(f"json/{chapter}/{example}")
                 data = json.load(file)
                 rows += self.create_example_page(data)
