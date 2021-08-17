@@ -1,0 +1,24 @@
+{
+    "name": "Kamke 1.2",
+    "eq": "a*y(x) - c*exp(b*x) + Derivative(y(x), x)",
+    "order": "1st",
+    "linearity": "Linear",
+    "status": "Solved",
+    "sol": "[Eq(y(x), (C1 + c*Piecewise((exp(a*x)*exp(b*x)/(a + b), Ne(a, -b)), (x, True)))*exp(-a*x))]",
+    "verification": "Skipped",
+    "time": 1.4320766925811768,
+    "hint": "1st_linear",
+    "all_hints": [
+        "1st_linear",
+        "Bernoulli",
+        "almost_linear",
+        "1st_power_series",
+        "lie_group",
+        "nth_linear_constant_coeff_undetermined_coefficients",
+        "nth_linear_constant_coeff_variation_of_parameters",
+        "1st_linear_Integral",
+        "Bernoulli_Integral",
+        "almost_linear_Integral",
+        "nth_linear_constant_coeff_variation_of_parameters_Integral"
+    ]
+}

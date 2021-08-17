@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+        <html>
+        <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width">
+        <title>Kamke 2.2</title>
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+        <script id="MathJax-script" async
+                src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+        </script>
+        <style>
+        body {
+            font-size: 1.2em;
+        }
+        .MathJax {
+            font-size: 1.6em !important;
+        }
+        a {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 16px;
+            background-color: rgba(0,0,0,0.75);
+            color: white;
+            border-radius: 7px;
+            font-size: 0.8em;
+        }
+        .collapsible {
+            background-color: #555;
+            color: white;
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: left;
+            outline: none;
+            font-size: 15px;
+        }
+
+        .active, .collapsible:hover {
+            background-color: rgba(0,0,0,0.75);
+        }
+
+        .content {
+            padding: 0 18px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.2s ease-out;
+            background-color: #f1f1f1;
+            overflow-x: scroll;
+        }
+        </style>
+        </head>
+        <body>
+        <p>
+        <h2>Kamke 2.2</h2>
+        <div>
+        <a href='kamke_2.1.html'>&laquo; Previous</a>
+        <a href='chapter2_summary.html'>Chapter Home</a>
+        <a href='../../index.html'>Home</a>
+        <a href='kamke_2.3.html'>Next &raquo;</a>
+        </div>
+        <h4>Equation</h4>
+            \(y{\left(x \right)} + \frac{d^{2}}{d x^{2}} y{\left(x \right)}\) <br>
+        <h4>Solution</h4>
+            <!-- Render latex if solution was found by dsolve, else render error message -->
+            \(\left[ y{\left(x \right)} = C_{1} \sin{\left(x \right)} + C_{2} \cos{\left(x \right)}\right]\) <br>
+            <h4>Verification (using checkodesol)</h4> Skipped <br>
+        <h4>Time Taken</h4>
+            0.2500741481781006 seconds <br>
+        </p>
+        <h4>Matching Hints</h4>
+<ul>
+<li>nth_linear_constant_coeff_homogeneous</li>
+<li>2nd_power_series_ordinary</li>
+<li>2nd_nonlinear_autonomous_conserved</li>
+<li>2nd_nonlinear_autonomous_conserved_Integral</li>
+</ul>
+<br>
+
+        <p>
+            Generated on Mon, 16 Aug 2021 11:17:50 GMT
+        </p>
+        <script>
+        var coll = document.getElementsByClassName("collapsible");
+        var i;
+
+        for (i = 0; i < coll.length; i++)
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight)
+            content.style.maxHeight = null;
+            else
+            content.style.maxHeight = content.scrollHeight + "px";
+        });
+        </script>
+        </body>
+        </html>
+        

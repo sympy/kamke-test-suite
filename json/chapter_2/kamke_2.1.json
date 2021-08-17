@@ -1,0 +1,20 @@
+{
+    "name": "Kamke 2.1",
+    "eq": "Derivative(y(x), (x, 2))",
+    "order": "2nd",
+    "linearity": "Linear",
+    "status": "Solved",
+    "sol": "[Eq(y(x), C1 + C2*x)]",
+    "verification": "Skipped",
+    "time": 0.5013632774353027,
+    "hint": "nth_algebraic",
+    "all_hints": [
+        "nth_algebraic",
+        "nth_linear_constant_coeff_homogeneous",
+        "nth_linear_euler_eq_homogeneous",
+        "Liouville",
+        "2nd_power_series_ordinary",
+        "nth_algebraic_Integral",
+        "Liouville_Integral"
+    ]
+}
