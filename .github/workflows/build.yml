@@ -27,7 +27,7 @@ jobs:
 
       - name: Chapter ${{ matrix.node }}
         run: |
-          python test_kamke.py -ch ${{ matrix.node }}
+          python test_kamke.py -ch ${{ matrix.node }} --remove_prev
 
       - uses: actions/upload-artifact@v2
         with:
