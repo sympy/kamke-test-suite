@@ -2454,14 +2454,6 @@ class Kamke:
                     "verification": str(checkodesol_output),
                     "time": time.time() - hint_start
                 }
-                # classify_output += f"""<button class="collapsible">{hnt}</button>
-                #         <div class="content">
-                #             <h4>Solution</h4>
-                #             {hint_sol} <br>
-                #             <h4>Verification (using checkodesol)</h4> {checkodesol_output} <br>
-                #             <h4>Time Taken</h4>
-                #             {time.time() - hint_start} seconds <br> <br>
-                #         </div>"""
 
         elapsed = time.time() - start
         log = f"{example} {status_messages[final_status]} in {elapsed} seconds\n"
@@ -2478,12 +2470,10 @@ class Kamke:
                 data["hint"] = classify_hints[0]
             log += final_error_message
             data["sol"] = final_error_message
-            # self.create_example_page(example, latex(eq), final_status, final_error_message, elapsed, classify_output, final_checkodesol_output, all_hints)
         else:
             log += f"Equation: {eq}\nSolution: {final_sol}\n"
             data["sol"] = str(final_sol)
             data["hint"] = classify_hints[0]
-            # self.create_example_page(example, latex(eq), final_status, latex(final_sol), elapsed, classify_output, final_checkodesol_output, all_hints)
         print(log)
 
         os.makedirs(f"json/chapter_{chno}/", exist_ok=True)
@@ -2493,12 +2483,12 @@ class Kamke:
 
 
     def test_chapter(self, chno, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, all_hints=False):
-        for example in list(self.all_chapters[chno-1].keys())[:2]:
+        for example in self.all_chapters[chno-1].keys():
             self.test_example(example, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
 
 
     def test_all_examples(self, hint="default", verify=False, dsolve_time=10, checkodesol_time=10, all_hints=False):
-        for chapter in range(1, 8):
+        for chapter in range(1, 10):
             self.test_chapter(chapter, hint, verify, dsolve_time, checkodesol_time, all_hints=all_hints)
 
 
