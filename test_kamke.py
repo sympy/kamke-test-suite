@@ -104,7 +104,6 @@ class Kamke:
         "kamke_1.60": Derivative(y(x), x) - sqrt(y(x)**2 - 1)/sqrt(x**2 - 1),
         "kamke_1.61": -sqrt(x**2 - 1)/sqrt(y(x)**2 - 1) + Derivative(y(x), x),
         "kamke_1.62": -(-x**2*sqrt(x**2 - y(x)**2) + y(x))/(x*sqrt(x**2 - y(x)**2)*y(x) + x) + Derivative(y(x), x),
-        "kamke_1.63": Derivative(y(x), x) - (y(x)**2 + 1)/((x + 1)**(3/2)*Abs(sqrt(y(x) + 1) + y(x))),
         "kamke_1.64": -sqrt((a*y(x)**2 + b*y(x) + c)/(a*x**2 + b*x + c)) + Derivative(y(x), x),
         "kamke_1.65": -sqrt((y(x)**3 + 1)/(x**3 + 1)) + Derivative(y(x), x),
         "kamke_1.66": Derivative(y(x), x) - sqrt(Abs((a*y(x) - 1)*(y(x) - 1)*y(x)))/sqrt(Abs(x*(x - 1)*(a*x - 1))),
@@ -376,7 +375,6 @@ class Kamke:
         "kamke_1.335": -sqrt(x**2 - 1) + sqrt(y(x)**2 - 1)*Derivative(y(x), x),
         "kamke_1.336": a*y(x) + sqrt(x**2 + 1) + (a*x + sqrt(y(x)**2 + 1))*Derivative(y(x), x),
         "kamke_1.337": (x + sqrt(x**2 + y(x)**2))*Derivative(y(x), x) - y(x),
-        "kamke_1.338": x*sqrt(x**2 + y(x)**2) + 2*x*y(x)*sin(alpha) + (-x**2 + y(x)**2)*cos(alpha) + (-2*x*y(x)*cos(alpha) + (-x**2 + y(x)**2)*sin(alpha) + sqrt(x**2 + y(x)**2)*y(x))*Derivative(y(x), x),
         "kamke_1.339": -x*(x**2 + y(x)**2) + (x*sqrt(x**2 + y(x)**2 + 1) - (x**2 + y(x)**2)*y(x))*Derivative(y(x), x) - sqrt(x**2 + y(x)**2 + 1)*y(x),
         "kamke_1.340": -(e1/((a + x)**2 + y(x)**2)**(3/2) + e2/((-a + x)**2 + y(x)**2)**(3/2))*y(x) + (e1*(a + x)/((a + x)**2 + y(x)**2)**(3/2) + e2*(-a + x)/((-a + x)**2 + y(x)**2)**(3/2))*Derivative(y(x), x),
         "kamke_1.341": (x*exp(y(x)) + exp(x))*Derivative(y(x), x) + y(x)*exp(x) + exp(y(x)),
@@ -399,7 +397,6 @@ class Kamke:
         "kamke_1.358": sin(x)*cos(y(x)) + sin(y(x))*cos(x)*Derivative(y(x), x),
         "kamke_1.359": 5*y(x)*cos(x)**4 + 3*sin(x)*sin(y(x))*Derivative(y(x), x),
         "kamke_1.360": -b*(-c*cos(a*y(x)) + 1)*sqrt(c*cos(a*y(x)) + cos(a*y(x))**2 - 1) + cos(a*y(x))*Derivative(y(x), x),
-        "kamke_1.361": (x*sin(x*y(x)) - sin(y(x)) + cos(x + y(x)))*Derivative(y(x), x) + y(x)*sin(x*y(x)) + cos(x) + cos(x + y(x)),
         "kamke_1.362": x*y(x)**2*sin(x*y(x)) + (x**2*y(x)*sin(x*y(x)) - 4*x)*Derivative(y(x), x) - y(x),
         "kamke_1.363": x + (x*Derivative(y(x), x) - y(x))*cos(y(x)/x)**2,
         "kamke_1.364": x*(-x*cos(y(x)/x) + y(x)*sin(y(x)/x))*Derivative(y(x), x) - (x*cos(y(x)/x) + y(x)*sin(y(x)/x))*y(x),
@@ -468,7 +465,6 @@ class Kamke:
         "kamke_1.427": -(x + 3*y(x))*Derivative(y(x), x) + (3*x + 5)*Derivative(y(x), x)**2 + y(x),
         "kamke_1.428": a*x*Derivative(y(x), x)**2 - b*y(x) + (-a*y(x) + b*x + c)*Derivative(y(x), x),
         "kamke_1.429": a*x*Derivative(y(x), x)**2 + b*y(x) - (a*y(x) - a + b*x - b)*Derivative(y(x), x),
-        "kamke_1.430": a0*x + b0*y(x) + c0 + (a2*x + c2)*Derivative(y(x), x)**2 + (a1*x + b1*y(x) + c1)*Derivative(y(x), x),
         "kamke_1.431": x**2*Derivative(y(x), x)**2 - y(x)**4 + y(x)**2,
         "kamke_1.432": -2*a*y(x) + x**2 + (a + x*Derivative(y(x), x))**2,
         "kamke_1.433": -4*a - 4*x**2 - 4*x*y(x) + (x*Derivative(y(x), x) + 2*x + y(x))**2,
@@ -1605,23 +1601,18 @@ class Kamke:
         "kamke_4.23": x**2*Derivative(y(x), (x, 4)) + 8*x*Derivative(y(x), (x, 3)) + 12*Derivative(y(x), (x, 2)),
         "kamke_4.24": -lambda_**2*y(x) + x**2*Derivative(y(x), (x, 4)) + 8*x*Derivative(y(x), (x, 3)) + 12*Derivative(y(x), (x, 2)),
         "kamke_4.25": -b**4*y(x)/16 + x**2*Derivative(y(x), (x, 4)) + x*(2*n - 2*nu + 4)*Derivative(y(x), (x, 3)) + (n - nu + 1)*(n - nu + 2)*Derivative(y(x), (x, 2)),
-        "kamke_4.26": -a**4*x**3*y(x) + x**3*Derivative(y(x), (x, 4)) + 2*x**2*Derivative(y(x), (x, 3)) - x*Derivative(y(x), (x, 2)) + Derivative(y(x), x),
         "kamke_4.27": x**3*Derivative(y(x), (x, 4)) + 6*x**2*Derivative(y(x), (x, 3)) + 6*x*Derivative(y(x), (x, 2)),
         "kamke_4.28": -2*n*x**2*(n + 1)*Derivative(y(x), (x, 2)) + 4*n*x*(n + 1)*Derivative(y(x), x) + x**4*Derivative(y(x), (x, 4)) + (a*x**4 + n*(n - 2)*(n + 1)*(n + 3))*y(x),
         "kamke_4.29": -4*x**4*y(x) + x**4*Derivative(y(x), (x, 4)) + 4*x**3*Derivative(y(x), (x, 3)) - x**2*(4*n**2 - 1)*Derivative(y(x), (x, 2)) + x*(4*n**2 - 1)*Derivative(y(x), x),
         "kamke_4.30": x**4*Derivative(y(x), (x, 4)) + 4*x**3*Derivative(y(x), (x, 3)) - x**2*(4*n**2 - 1)*Derivative(y(x), (x, 2)) - x*(4*n**2 - 1)*Derivative(y(x), x) + (4*n**2 - 4*x**4 - 1)*y(x),
         "kamke_4.31": x**4*Derivative(y(x), (x, 4)) + 4*x**3*Derivative(y(x), (x, 3)) - x**2*(4*n**2 + 3)*Derivative(y(x), (x, 2)) + x*(12*n**2 - 3)*Derivative(y(x), x) - (12*n**2 + 4*x**4 - 3)*y(x),
         "kamke_4.32": x**4*Derivative(y(x), (x, 4)) + 6*x**3*Derivative(y(x), (x, 3)) + (16*x**3 + x*(-rho**2 - sigma**2 + 1))*Derivative(y(x), x) + (4*x**4 + x**2*(-rho**2 - sigma**2 + 7))*Derivative(y(x), (x, 2)) + (rho**2*sigma**2 + 8*x**2)*y(x),
-        "kamke_4.33": x**4*Derivative(y(x), (x, 4)) + 6*x**3*Derivative(y(x), (x, 3)) + (8*x**2 + (mu**2 - nu**2)**2)*y(x) + (16*x**3 + x*(-2*mu**2 - 2*nu**2 + 1))*Derivative(y(x), x) + (4*x**4 + x**2*(-2*mu**2 - 2*nu**2 + 7))*Derivative(y(x), (x, 2)),
         "kamke_4.34": x**4*Derivative(y(x), (x, 4)) + 8*x**3*Derivative(y(x), (x, 3)) + 12*x**2*Derivative(y(x), (x, 2)),
         "kamke_4.35": a*y(x) + x**4*Derivative(y(x), (x, 4)) + 8*x**3*Derivative(y(x), (x, 3)) + 12*x**2*Derivative(y(x), (x, 2)),
-        "kamke_4.36": x**4*Derivative(y(x), (x, 4)) + x**3*(6 - 4*a)*Derivative(y(x), (x, 3)) + x**2*(AAA + 4*b**2*c**2*x**(2*c))*Derivative(y(x), (x, 2)) + x*(4*BBB*b**2*c**2*x**(2*c) + CCC*(2*a - 1))*Derivative(y(x), x) + (4*DDD*b**2*c**2*x**(2*c) + EEE)*y(x),
         "kamke_4.37": x**4*Derivative(y(x), (x, 4)) + x**3*(-4*a - 4*c + 6)*Derivative(y(x), (x, 3)) + x**2*(2*a**2 - 2*c**2*nu**2 + (4*a - 4)*(c - 1) + 4*(a + c - 1)**2 - 1)*Derivative(y(x), (x, 2)) + x*(2*a + 2*c - 1)*(-2*a**2 + 2*c**2*nu**2 - (2*a - 1)*(2*c - 1))*Derivative(y(x), x) + (-b**4*c**4*x**(4*c) + (a**2 - c**2*nu**2)*(a**2 + 4*a*c - c**2*nu**2 + 4*c**2))*y(x),
         "kamke_4.38": -b**4*x**(2/nu)*y(x)/16 + nu**4*x**4*Derivative(y(x), (x, 4)) + nu**3*x**3*(4*nu - 2)*Derivative(y(x), (x, 3)) + nu**2*x**2*(nu - 1)*(2*nu - 1)*Derivative(y(x), (x, 2)),
         "kamke_4.39": 10*x*(x**2 - 1)*Derivative(y(x), (x, 3)) - 6*x*(mu*(mu + 1) + nu*(nu + 1) - 2)*Derivative(y(x), x) + (x**2 - 1)**2*Derivative(y(x), (x, 4)) + (24*x**2 - (x**2 - 1)*(2*mu*(mu + 1) + 2*nu*(nu + 1)) - 8)*Derivative(y(x), (x, 2)) + (-2*mu*(mu + 1) - 2*nu*(nu + 1) + (mu*(mu + 1) - nu*(nu + 1))**2)*y(x),
         "kamke_4.40": (2*x + exp(x))*Derivative(y(x), (x, 4)) + (4*exp(x) + 8)*Derivative(y(x), (x, 3)) + y(x)*exp(x) + 4*exp(x)*Derivative(y(x), x) + 6*exp(x)*Derivative(y(x), (x, 2)) - 1/x**5,
-        "kamke_4.41": (a**4*sin(x)**4 - 3)*y(x) + (sin(x)**2 - 3)*sin(x)**2*Derivative(y(x), (x, 2)) + (2*sin(x)**2 + 3)*sin(x)*cos(x)*Derivative(y(x), x) + sin(x)**4*Derivative(y(x), (x, 4)) + 2*sin(x)**3*cos(x)*Derivative(y(x), (x, 3)),
-        "kamke_4.42": -fs + y(x)*sin(x)**6 - 6*sin(x)**6*Derivative(y(x), (x, 2)) + sin(x)**6*Derivative(y(x), (x, 4)) - 4*sin(x)**5*cos(x)*Derivative(y(x), x) + 4*sin(x)**5*cos(x)*Derivative(y(x), (x, 3)),
         "kamke_4.43": 2*df*(-a**2*Derivative(y(x), x) + Derivative(y(x), (x, 3))) + fs*(a**4*y(x) - 2*a**2*Derivative(y(x), (x, 2)) + Derivative(y(x), (x, 4))),
         "kamke_4.44": fs*Derivative(y(x), (x, 4))
     }
@@ -2008,9 +1999,18 @@ class Kamke:
         "kamke_1.31": -a*x**n*(y(x)**2 + 1) + Derivative(y(x), x),
         "kamke_1.47": -a*(-x + x**n)*y(x)**3 - y(x)**2 + Derivative(y(x), x),
         "kamke_1.48": -c*y(x)**2 - (a*x**n + b*x)*y(x)**3 + Derivative(y(x), x),
+        "kamke_1.63": Derivative(y(x), x) - (y(x)**2 + 1)/((x + 1)**(3/2)*Abs(sqrt(y(x) + 1) + y(x))),
         "kamke_1.94": a*y(x) + b*x**n + x*Derivative(y(x), x),
         "kamke_1.113": a*sqrt(x**2 + y(x)**2) + x*Derivative(y(x), x) - y(x),
         "kamke_1.205": a*y(x) + b*x**n + x*(a**2/4 - 1/4) + y(x)*Derivative(y(x), x),
+        "kamke_1.338": x*sqrt(x**2 + y(x)**2) + 2*x*y(x)*sin(alpha) + (-x**2 + y(x)**2)*cos(alpha) + (-2*x*y(x)*cos(alpha) + (-x**2 + y(x)**2)*sin(alpha) + sqrt(x**2 + y(x)**2)*y(x))*Derivative(y(x), x),
+        "kamke_1.361": (x*sin(x*y(x)) - sin(y(x)) + cos(x + y(x)))*Derivative(y(x), x) + y(x)*sin(x*y(x)) + cos(x) + cos(x + y(x)),
+        "kamke_1.430": a0*x + b0*y(x) + c0 + (a2*x + c2)*Derivative(y(x), x)**2 + (a1*x + b1*y(x) + c1)*Derivative(y(x), x),
+        "kamke_4.26": -a**4*x**3*y(x) + x**3*Derivative(y(x), (x, 4)) + 2*x**2*Derivative(y(x), (x, 3)) - x*Derivative(y(x), (x, 2)) + Derivative(y(x), x),
+        "kamke_4.33": x**4*Derivative(y(x), (x, 4)) + 6*x**3*Derivative(y(x), (x, 3)) + (8*x**2 + (mu**2 - nu**2)**2)*y(x) + (16*x**3 + x*(-2*mu**2 - 2*nu**2 + 1))*Derivative(y(x), x) + (4*x**4 + x**2*(-2*mu**2 - 2*nu**2 + 7))*Derivative(y(x), (x, 2)),
+        "kamke_4.36": x**4*Derivative(y(x), (x, 4)) + x**3*(6 - 4*a)*Derivative(y(x), (x, 3)) + x**2*(AAA + 4*b**2*c**2*x**(2*c))*Derivative(y(x), (x, 2)) + x*(4*BBB*b**2*c**2*x**(2*c) + CCC*(2*a - 1))*Derivative(y(x), x) + (4*DDD*b**2*c**2*x**(2*c) + EEE)*y(x),
+        "kamke_4.41": (a**4*sin(x)**4 - 3)*y(x) + (sin(x)**2 - 3)*sin(x)**2*Derivative(y(x), (x, 2)) + (2*sin(x)**2 + 3)*sin(x)*cos(x)*Derivative(y(x), x) + sin(x)**4*Derivative(y(x), (x, 4)) + 2*sin(x)**3*cos(x)*Derivative(y(x), (x, 3)),
+        "kamke_4.42": -fs + y(x)*sin(x)**6 - 6*sin(x)**6*Derivative(y(x), (x, 2)) + sin(x)**6*Derivative(y(x), (x, 4)) - 4*sin(x)**5*cos(x)*Derivative(y(x), x) + 4*sin(x)**5*cos(x)*Derivative(y(x), (x, 3)),
         "kamke_5.9": x*diff(y(x),(x,n))-((a*AA[1]-AA[0])*x+AA[1])-Sum(((a*AA[v+1]-AA[v])*x+AA[v+1])*diff(y(x),(x,v)),(v,1,n-1)),
         "kamke_7.15": -fs*Derivative(y(x), (x, 2))*Derivative(y(x), (x, 3)) + (f(x)*Derivative(y(x), (x, 2)) + Derivative(f(x), x)*Derivative(y(x), x))*Derivative(y(x), x)**3 + (q(x)*Derivative(y(x), (x, 2)) - Derivative(q(x), x)*Derivative(y(x), x))*cos(y(x)) + (f(x)*Derivative(y(x), (x, 4)) + 3*Derivative(f(x), x)*Derivative(y(x), (x, 3)) + 3*Derivative(f(x), (x, 2))*Derivative(y(x), (x, 2)) + Derivative(f(x), (x, 3))*Derivative(y(x), x))*Derivative(y(x), x) + 2*q(x)*sin(y(x))*Derivative(y(x), x)**2,
         "kamke_7.18": -f(Derivative(y(x), (x, n - 1))) + Derivative(y(x), (x, n)),
@@ -2339,8 +2339,10 @@ class Kamke:
 
     def get_linearity(self, eq):
         if isinstance(eq, tuple):
+            eq = eq[0]
             powers = set()
             for e in eq:
+                print(e.atoms(Pow))
                 powers |= e.atoms(Pow)
         else:
             powers = eq.atoms(Pow)
@@ -2353,7 +2355,8 @@ class Kamke:
 
     def get_order(self, eq):
         if isinstance(eq, tuple):
-            eq = eq[0][0]
+            eq = eq[0]
+            return max(self.get_order(e) for e in eq)
         order = ode_order(eq, y(x))
         if order == 1:
             return "1st"
@@ -2388,9 +2391,14 @@ class Kamke:
         final_checkodesol_output = "Skipped"
         start = time.time()
         classify_output = ""
-        classify_hints = classify_ode(eq, y(x))
+        try:
+            classify_hints = classify_ode(eq, y(x))
+        except BaseException as error:
+            # Unable to classify ODE
+            final_error_message += f"Unexpected Error: {error}\n"
+            classify_hints = []
 
-        if not all_hints:
+        if not all_hints and len(classify_hints):
             hints = [hint]
             data["all_hints"] = classify_hints
         else:
@@ -2417,6 +2425,10 @@ class Kamke:
                 # Solution not found / timeout
                 error_message += str(e) + "\n"
 
+            except BaseException as error:
+                # Unexpected Error
+                error_message += f"Unexpected Error: {error}\n"
+
             # If a solution is found
             if sol is not None and verify:
                 try:
@@ -2437,6 +2449,10 @@ class Kamke:
                 except (TimeOutError, ValueError, NotImplementedError, TypeError) as e:
                     # Checkodesol unable to verify / timeout
                     error_message += str(e) + "\n"
+
+                except BaseException as error:
+                    # Unexpected Error
+                    error_message += f"Unexpected Error: {error}\n"
 
             if sol is not None:
                 if final_sol is None:
